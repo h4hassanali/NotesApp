@@ -31,3 +31,21 @@ def siginin(email: str, password: str, db: Session = Depends(get_db)):
         return f"Welcome {user.name}, you have Loged into the System"
     raise HTTPException(status_code=400, detail="User not found")
 
+@app.post("/add_note")
+def add_note(user_id: int, title: str, content: str, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=400, detail="User not found")
+    new_note = models.Note(title=title, content=content, owner_id=user_id)
+    db.add(new_note)
+    db.commit()
+    db.refresh(new_note)
+    return new_note
+
+@app.get("/read_note")
+def read_notes(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=400, detail="User not found")
+    notes = db.query(models.Note).filter(models.Note.owner_id == user_id).all()
+    return notes
