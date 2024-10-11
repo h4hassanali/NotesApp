@@ -1,10 +1,11 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from models import models
-from database.db import SessionLocal, engine 
+from database.db import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
+
 
 def get_db():
     db = SessionLocal()
@@ -12,6 +13,7 @@ def get_db():
         yield db
     finally:
         db.close()
+
 
 @app.post("/signup")
 def signup(name: str, email: str, password: str, db: Session = Depends(get_db)):
@@ -24,12 +26,14 @@ def signup(name: str, email: str, password: str, db: Session = Depends(get_db)):
     db.refresh(new_user)
     return new_user
 
+
 @app.get("/signin")
 def siginin(email: str, password: str, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.email == email).first()
     if user:
         return f"Welcome {user.name}, you have Loged into the System"
     raise HTTPException(status_code=400, detail="User not found")
+
 
 @app.post("/add_note")
 def add_note(user_id: int, title: str, content: str, db: Session = Depends(get_db)):
@@ -41,6 +45,7 @@ def add_note(user_id: int, title: str, content: str, db: Session = Depends(get_d
     db.commit()
     db.refresh(new_note)
     return new_note
+
 
 @app.get("/read_note")
 def read_notes(user_id: int, db: Session = Depends(get_db)):
