@@ -6,7 +6,7 @@ A simple notes application built with FastAPI.
 
 - **User Signup**: Create a new user account with a unique email and password.
 - **User Login**: Sign in to the system using email and password.
-- **Add Notes**: Authenticated users can add notes with a title and content.
+- **Add Notes**: Users can add notes with a title and content.
 - **Read Notes**: Users can retrieve all their notes.
 
 ## Tech Stack
