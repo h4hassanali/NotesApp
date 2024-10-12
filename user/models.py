@@ -14,6 +14,3 @@ class User(Base):
         TIMESTAMP(timezone=True), server_default=text("now()"), nullable=False
     )
     notes = relationship("Note", back_populates="owner")
-
-
-
