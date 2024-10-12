@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .initialize_tables import initialize_tables
+from database.initialize_tables import initialize_tables
 from user.routes import user_router
 from note.routes import note_router
 
