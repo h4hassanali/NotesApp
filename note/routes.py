@@ -12,9 +12,9 @@ note_router = APIRouter()
 @note_router.post(
     "/add_note", response_model=AddNoteResponse, status_code=status.HTTP_201_CREATED
 )
-def add_note(note_data: AddNoteRequest, db: Session = Depends(get_database_session)):
+def add_note(note_data: AddNoteRequest, database: Session = Depends(get_database_session)):
     # Check if user exists
-    user = db.query(User).filter(User.id == note_data.user_id).first()
+    user = database.query(User).filter(User.id == note_data.user_id).first()
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
@@ -24,9 +24,9 @@ def add_note(note_data: AddNoteRequest, db: Session = Depends(get_database_sessi
     new_note = Note(
         title=note_data.title, content=note_data.content, owner_id=note_data.user_id
     )
-    db.add(new_note)
-    db.commit()
-    db.refresh(new_note)
+    database.add(new_note)
+    database.commit()
+    database.refresh(new_note)
 
     return new_note
 
@@ -35,16 +35,16 @@ def add_note(note_data: AddNoteRequest, db: Session = Depends(get_database_sessi
 @note_router.get(
     "/view_notes", response_model=ListNotesResponse, status_code=status.HTTP_200_OK
 )
-def view_notes(user_id: int, db: Session = Depends(get_database_session)):
+def view_notes(user_id: int, database: Session = Depends(get_database_session)):
     # Check if user exists
-    user = db.query(User).filter(User.id == user_id).first()
+    user = database.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
         )
 
     # Retrieve notes for the user
-    notes = db.query(Note).filter(Note.owner_id == user_id).all()
+    notes = database.query(Note).filter(Note.owner_id == user_id).all()
 
     # Return the notes in a structured response
     return {"notes": notes}
