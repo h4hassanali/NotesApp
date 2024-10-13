@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from .models import User
+from user.utils import check_user
 from database.session import get_database_session
 from .schemas import (
     UserSignupRequest,
@@ -18,11 +19,8 @@ user_router = APIRouter()
 )
 def signup(user_data: UserSignupRequest, database: Session = Depends(get_database_session)):
     # Check if user already exists
-    user = database.query(User).filter(User.email == user_data.email).first()
-    if user:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered"
-        )
+    check_user(email = user_data.email, database = database)
+
 
     # Create a new user
     new_user = User(
