@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from .models import User
-from database.get_db_session import get_db
+from database.session import get_database_session
 from .schemas import (
     UserSignupRequest,
-    UserSignupResponse,
+    UserSignupResponse,  
     UserSigninRequest,
     UserSigninResponse,
 )
@@ -16,7 +16,7 @@ user_router = APIRouter()
 @user_router.post(
     "/signup", response_model=UserSignupResponse, status_code=status.HTTP_201_CREATED
 )
-def signup(user_data: UserSignupRequest, db: Session = Depends(get_db)):
+def signup(user_data: UserSignupRequest, db: Session = Depends(get_database_session)):
     # Check if user already exists
     user = db.query(User).filter(User.email == user_data.email).first()
     if user:
@@ -39,7 +39,7 @@ def signup(user_data: UserSignupRequest, db: Session = Depends(get_db)):
 @user_router.post(
     "/signin", response_model=UserSigninResponse, status_code=status.HTTP_200_OK
 )
-def signin(user_data: UserSigninRequest, db: Session = Depends(get_db)):
+def signin(user_data: UserSigninRequest, db: Session = Depends(get_database_session)):
     # Validate user credentials
     user = (
         db.query(User)

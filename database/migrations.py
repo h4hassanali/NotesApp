@@ -1,12 +1,11 @@
-# initialize_tables.py
-from database.db import engine
+# database_migrations.py
+from database.engine import engine
 from user.models import User
 from note.models import Note
 
 
 # Create tables for User and Note models
-def initialize_tables():
-    # Create all tables in the database
+def migrate():
     User.__table__.create(bind=engine, checkfirst=True)
     Note.__table__.create(bind=engine, checkfirst=True)
     print("Database tables created successfully.")

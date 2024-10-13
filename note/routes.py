@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from database.get_db_session import get_db
+from database.session import get_database_session
 from .schemas import AddNoteRequest, AddNoteResponse, ListNotesResponse
 from .models import Note
 from user.models import User
@@ -12,7 +12,7 @@ note_router = APIRouter()
 @note_router.post(
     "/add_note", response_model=AddNoteResponse, status_code=status.HTTP_201_CREATED
 )
-def add_note(note_data: AddNoteRequest, db: Session = Depends(get_db)):
+def add_note(note_data: AddNoteRequest, db: Session = Depends(get_database_session)):
     # Check if user exists
     user = db.query(User).filter(User.id == note_data.user_id).first()
     if not user:
@@ -35,7 +35,7 @@ def add_note(note_data: AddNoteRequest, db: Session = Depends(get_db)):
 @note_router.get(
     "/view_notes", response_model=ListNotesResponse, status_code=status.HTTP_200_OK
 )
-def view_notes(user_id: int, db: Session = Depends(get_db)):
+def view_notes(user_id: int, db: Session = Depends(get_database_session)):
     # Check if user exists
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
