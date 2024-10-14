@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from services.user_services import (
+from services.user_service import (
     service_to_create_user,
     service_to_validate_user_credentials,
 )
