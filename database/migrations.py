@@ -8,8 +8,8 @@ from sqlalchemy.exc import SQLAlchemyError
 # Create tables for User and Note models
 def migrate():
     try:
-        User.__table__.create(bind = engine, checkfirst = True)
-        Note.__table__.create(bind = engine, checkfirst = True)
+        User.__table__.create(bind=engine, checkfirst=True)
+        Note.__table__.create(bind=engine, checkfirst=True)
         print("Database tables created successfully.")
     except SQLAlchemyError as e:
         print(f"An error occurred while creating tables: {e}")
