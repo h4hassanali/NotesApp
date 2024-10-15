@@ -44,7 +44,6 @@ def signin(
     user_data: UserSigninRequest,
     database: Session = Depends(get_database_session),
 ):
-    # Validate user credentials
     user = service_to_validate_user_credentials(user_data, database)
 
     return user

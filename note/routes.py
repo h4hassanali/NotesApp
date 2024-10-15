@@ -12,7 +12,6 @@ from user.utils import check_user
 note_router = APIRouter()
 
 
-# Add Note Route
 @note_router.post(
     "/add_note",
     response_model=AddNoteResponse,
@@ -22,7 +21,6 @@ def add_note(
     note_data: AddNoteRequest,
     database: Session = Depends(get_database_session),
 ):
-    # Check if user exists
     check_user(user_id=note_data.user_id, database=database)
 
     new_note = service_to_create_note(note_data, database)
@@ -30,7 +28,6 @@ def add_note(
     return new_note
 
 
-# View Notes Route
 @note_router.get(
     "/view_notes",
     response_model=ListNotesResponse,
@@ -39,10 +36,8 @@ def add_note(
 def view_notes(
     user_id: int, database: Session = Depends(get_database_session)
 ):
-    # Check if user exists
     check_user(user_id=user_id, database=database)
 
     notes = service_to_get_user_notes(user_id, database)
 
-    # Return the notes in a structured response
     return {"notes": notes}

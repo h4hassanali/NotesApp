@@ -1,11 +1,9 @@
-# database_migrations.py
 from database.engine import engine
 from user.models import User
 from note.models import Note
 from sqlalchemy.exc import SQLAlchemyError
 
 
-# Create tables for User and Note models
 def migrate():
     try:
         User.__table__.create(bind=engine, checkfirst=True)
