@@ -18,12 +18,11 @@ note_router = APIRouter()
     status_code=status.HTTP_201_CREATED,
 )
 def add_note(
-    note_data: AddNoteRequest,
-    database: Session = Depends(get_database_session),
+    note_data: AddNoteRequest
 ):
-    check_user(user_id=note_data.user_id, database=database)
+    check_user(user_id=note_data.user_id)
 
-    new_note = service_to_create_note(note_data, database)
+    new_note = service_to_create_note(note_data)
 
     return new_note
 
@@ -33,11 +32,9 @@ def add_note(
     response_model=ListNotesResponse,
     status_code=status.HTTP_200_OK,
 )
-def view_notes(
-    user_id: int, database: Session = Depends(get_database_session)
-):
-    check_user(user_id=user_id, database=database)
+def view_notes(user_id: int):
+    check_user(user_id=user_id)
 
-    notes = service_to_get_user_notes(user_id, database)
+    notes = service_to_get_user_notes(user_id)
 
     return {"notes": notes}
