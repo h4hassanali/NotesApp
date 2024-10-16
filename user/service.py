@@ -8,6 +8,7 @@ from database.dependencies import get_database_session
 
 def create_user(user_data: UserSignupRequest):
     database = get_database_session()
+
     try:
         new_user = User(
             name = user_data.name,
@@ -17,19 +18,23 @@ def create_user(user_data: UserSignupRequest):
         database.add(new_user)
         database.commit()
         database.refresh(new_user)
+
     except SQLAlchemyError as e:
         database.rollback()
         raise HTTPException(
             status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail = "Could not create user: {}".format(str(e)),
         )
+    
     finally:
         database.close()
+
     return new_user
 
 
 def validate_user_credentials(user_data: UserSigninRequest):
     database = get_database_session()
+
     try:
         user = (
             database.query(User)
@@ -44,11 +49,14 @@ def validate_user_credentials(user_data: UserSigninRequest):
                 status_code = status.HTTP_404_NOT_FOUND,
                 detail = "Invalid email or password",
             )
+        
     except SQLAlchemyError as e:
         raise HTTPException(
             status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail = "Database error: {}".format(str(e)),
         )
+    
     finally:
         database.close()
+
     return user
