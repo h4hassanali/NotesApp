@@ -1,12 +1,9 @@
-from fastapi import APIRouter, Depends, status
-from sqlalchemy.orm import Session
-from database.dependencies import get_database_session
+from fastapi import APIRouter, status
 from note.service import (
     create_note,
     get_user_notes,
 )
 from .schemas import AddNoteRequest, AddNoteResponse, ListNotesResponse
-from .models import Note
 from user.utils import check_user
 
 note_router = APIRouter()
