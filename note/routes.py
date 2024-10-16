@@ -13,11 +13,11 @@ note_router = APIRouter()
 
 
 @note_router.post(
-    "/add_note",
+    "/notes",
     response_model=AddNoteResponse,
     status_code=status.HTTP_201_CREATED,
 )
-def add_note(
+def create_note(
     note_data: AddNoteRequest
 ):
     check_user(user_id=note_data.user_id)
@@ -28,11 +28,11 @@ def add_note(
 
 
 @note_router.get(
-    "/view_notes",
+    "/notes",
     response_model=ListNotesResponse,
     status_code=status.HTTP_200_OK,
 )
-def view_notes(user_id: int):
+def get_notes(user_id: int):
     check_user(user_id=user_id)
 
     notes = service_to_get_user_notes(user_id)
