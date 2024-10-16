@@ -7,5 +7,5 @@ app = FastAPI()
 
 migrations.migrate()
 
-app.include_router(user_router, prefix="/user")
-app.include_router(note_router, prefix="/note")
+app.include_router(user_router, prefix = "/user")
+app.include_router(note_router, prefix = "/note")

@@ -11,7 +11,7 @@ note_router = APIRouter()
 
 @note_router.post("/notes", response_model = AddNoteResponse, status_code = status.HTTP_201_CREATED)
 def create_note(note_data: AddNoteRequest):
-    check_user(user_id=note_data.user_id)
+    check_user(user_id = note_data.user_id)
     new_note = create_note(note_data)
     return new_note
 

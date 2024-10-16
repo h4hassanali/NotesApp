@@ -10,6 +10,6 @@ def get_database_session():
         return db_session
     except SQLAlchemyError as e:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Database connection error: {}".format(str(e)),
+            status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail = "Database connection error: {}".format(str(e)),
         )

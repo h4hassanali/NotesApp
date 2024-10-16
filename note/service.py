@@ -7,9 +7,9 @@ from database.dependencies import get_database_session
 
 def create_note_in_db(database: Session, note_data: AddNoteRequest):
     new_note = Note(
-        title=note_data.title,
-        content=note_data.content,
-        owner_id=note_data.user_id,
+        title = note_data.title,
+        content = note_data.content,
+        owner_id = note_data.user_id,
     )
     database.add(new_note)
     database.commit()
@@ -24,8 +24,8 @@ def create_note(note_data: AddNoteRequest):
     except Exception as e:
         database.rollback()
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Could not create note: {}".format(str(e)),
+            status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail = "Could not create note: {}".format(str(e)),
         )
     finally:
         database.close()
@@ -38,8 +38,8 @@ def get_user_notes(user_id: int) -> list[Note]:
         return notes
     except Exception as e:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Could not retrieve notes: {}".format(str(e)),
+            status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail = "Could not retrieve notes: {}".format(str(e)),
         )
     finally:
         database.close()
