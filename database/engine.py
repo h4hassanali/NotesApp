@@ -1,10 +1,13 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import os
+from dotenv import load_dotenv, dotenv_values
 
-SQLALCHEMY_DATABASE_URL = (
-    "postgresql://postgres:12345@localhost:5432/NotesAppDatabase"
-)
+
+load_dotenv()
+
+SQLALCHEMY_DATABASE_URL = (os.getenv("DATABASE_URL"))
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
