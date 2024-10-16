@@ -22,7 +22,7 @@ def service_to_create_note(note_data: AddNoteRequest) -> Note:
     try:
         return create_note_in_db(database, note_data)
     except Exception as e:
-        database.rollback() 
+        database.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Could not create note: {}".format(str(e)),

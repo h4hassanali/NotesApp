@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, status
 from user.service import (
     service_to_create_user,
     service_to_validate_user_credentials,
@@ -20,15 +20,11 @@ user_router = APIRouter()
     status_code=status.HTTP_201_CREATED,
 )
 def signup(user_data: UserSignupRequest):
-
     check_user(email=user_data.email)
-
     new_user = service_to_create_user(user_data)
-
     return new_user
 
 
-# Signin route
 @user_router.post(
     "/signin",
     response_model=UserSigninResponse,
@@ -36,5 +32,4 @@ def signup(user_data: UserSignupRequest):
 )
 def signin(user_data: UserSigninRequest):
     user = service_to_validate_user_credentials(user_data)
-
     return user
