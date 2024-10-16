@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from services.user_service import (
+from user.service import (
     service_to_create_user,
     service_to_validate_user_credentials,
 )
@@ -22,6 +22,7 @@ user_router = APIRouter()
     response_model=UserSignupResponse,
     status_code=status.HTTP_201_CREATED,
 )
+
 def signup(
     user_data: UserSignupRequest,
     database: Session = Depends(get_database_session),

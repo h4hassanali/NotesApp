@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from database.dependencies import get_database_session
-from services.note_service import (
+from note.service import (
     service_to_create_note,
     service_to_get_user_notes,
 )
