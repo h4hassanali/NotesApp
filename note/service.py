@@ -5,7 +5,7 @@ from note.schemas import AddNoteRequest
 from database.dependencies import get_database_session
 
 
-def create_note_in_db(database: Session, note_data: AddNoteRequest) -> Note:
+def create_note_in_db(database: Session, note_data: AddNoteRequest):
     new_note = Note(
         title=note_data.title,
         content=note_data.content,
@@ -17,7 +17,7 @@ def create_note_in_db(database: Session, note_data: AddNoteRequest) -> Note:
     return new_note
 
 
-def service_to_create_note(note_data: AddNoteRequest) -> Note:
+def service_to_create_note(note_data: AddNoteRequest):
     database = get_database_session()
     try:
         return create_note_in_db(database, note_data)

@@ -13,23 +13,14 @@ from .schemas import (
 
 user_router = APIRouter()
 
-
-@user_router.post(
-    "/signup",
-    response_model=UserSignupResponse,
-    status_code=status.HTTP_201_CREATED,
-)
+@user_router.post("/signup", response_model = UserSignupResponse, status_code = status.HTTP_201_CREATED)
 def signup(user_data: UserSignupRequest):
-    check_user(email=user_data.email)
+    check_user(email = user_data.email)
     new_user = service_to_create_user(user_data)
     return new_user
 
 
-@user_router.post(
-    "/signin",
-    response_model=UserSigninResponse,
-    status_code=status.HTTP_200_OK,
-)
+@user_router.post("/signin", response_model = UserSigninResponse, status_code = status.HTTP_200_OK)
 def signin(user_data: UserSigninRequest):
     user = service_to_validate_user_credentials(user_data)
     return user
