@@ -6,7 +6,7 @@ from user.schemas import UserSignupRequest, UserSigninRequest
 from database.dependencies import get_database_session
 
 
-def service_to_create_user(user_data: UserSignupRequest):
+def create_user(user_data: UserSignupRequest):
     database = get_database_session()
     try:
         new_user = User(
@@ -28,7 +28,7 @@ def service_to_create_user(user_data: UserSignupRequest):
     return new_user
 
 
-def service_to_validate_user_credentials(user_data: UserSigninRequest):
+def validate_user_credentials(user_data: UserSigninRequest):
     database = get_database_session()
     try:
         user = (

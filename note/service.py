@@ -17,7 +17,7 @@ def create_note_in_db(database: Session, note_data: AddNoteRequest):
     return new_note
 
 
-def service_to_create_note(note_data: AddNoteRequest):
+def create_note(note_data: AddNoteRequest):
     database = get_database_session()
     try:
         return create_note_in_db(database, note_data)
@@ -31,7 +31,7 @@ def service_to_create_note(note_data: AddNoteRequest):
         database.close()
 
 
-def service_to_get_user_notes(user_id: int) -> list[Note]:
+def get_user_notes(user_id: int) -> list[Note]:
     database = get_database_session()
     try:
         notes = database.query(Note).filter(Note.owner_id == user_id).all()
