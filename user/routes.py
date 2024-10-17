@@ -32,6 +32,6 @@ def signin(user_data: UserSigninRequest):
     if user:
         return user
     raise HTTPException(
-        status_code=status.HTTP_403_FORBIDDEN,
-        detail="Invalid Email or Password",
+        status_code = status.HTTP_403_FORBIDDEN,
+        detail = "Invalid Email or Password",
     )

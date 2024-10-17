@@ -26,7 +26,7 @@ def get_notes(user_id: int):
         notes = get_notes_service(user_id)
         return {"notes": notes}
     raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail="User not found",
+        status_code = status.HTTP_404_NOT_FOUND,
+        detail = "User not found",
     )
     
