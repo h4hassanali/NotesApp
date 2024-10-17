@@ -16,7 +16,8 @@ user_router = APIRouter()
 
 @user_router.post("/signup", response_model = UserSignupResponse, status_code = status.HTTP_201_CREATED)
 def signup(user_data: UserSignupRequest):
-    if not check_user_service(email = user_data.email):
+    user_exist = check_user_service(email = user_data.email)
+    if not user_exist:
         new_user = create_user_service(user_data)
         return new_user
     raise HTTPException(
