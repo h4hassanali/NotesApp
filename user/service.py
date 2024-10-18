@@ -1,60 +1,62 @@
 # services/user_service.py
+
 from user.models import User
 from user.schemas import UserSignupRequest, UserSigninRequest
 from database.service import get_database_session
 from pydantic import EmailStr
+from passlib.context import CryptContext
+from sqlalchemy.orm import Session
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
-def create_user_service(user_data: UserSignupRequest):
-    database = get_database_session()
-    new_user = User(
-        name = user_data.name,
-        email = user_data.email,
-        password = user_data.password,
-    )
-    database.add(new_user)
-    database.commit()
-    database.refresh(new_user)
-    database.close()
+def create_user(user_data: UserSignupRequest) -> User:
+    with get_database_session() as database:
+        new_user = User(
+            name=user_data.name,
+            email=user_data.email,
+            password=get_password_hash(user_data.password),
+        )
+        database.add(new_user)
+        database.commit()
+        database.refresh(new_user)
 
     return new_user
-        
 
-def validate_credentials_service(user_data: UserSigninRequest):
-    database = get_database_session()
-    user = (
-        database.query(User)
-        .filter(User.email == user_data.email,User.password == user_data.password).first()
-    )
-    database.close()
-    if not user:
+
+def validate_credentials(user_data: UserSigninRequest) -> User | bool:
+    with get_database_session() as database:
+        user = database.query(User).filter(
+            User.email == user_data.email).first()
+
+    if not user or not verify_password(user_data.password, user.password):
         return False
+
     return user
 
 
-def check_user_service(email: EmailStr = None, user_id: int = None):
-    database = get_database_session()
-    try:
+def get_password_hash(password: str) -> str:
+    return pwd_context.hash(password)
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)
+
+
+def check_user(email: EmailStr = None, user_id: int = None) -> bool:
+    with get_database_session() as database:
         if email:
-            if check_email_registered(database, email):
-                return True
-        elif user_id is not None:
-            if check_user_exists(database, user_id):
-                return True
-        return False
-    finally:
-        database.close()
+            return user_exists(database, email=email)
+        elif user_id:
+            return user_exists(database, user_id=user_id)
 
-
-def check_email_registered(database, email: EmailStr):
-    user = database.query(User).filter(User.email == email).first()
-    if user:
-        return True
     return False
 
 
-def check_user_exists(database, user_id: int):
-    user = database.query(User).filter(User.id == user_id).first()
-    if user:
-        return True
+def user_exists(database: Session, email: EmailStr = None, user_id: int = None) -> bool:
+    query = database.query(User)
+    if email:
+        return query.filter(User.email == email).first() is not None
+    elif user_id:
+        return query.filter(User.id == user_id).first() is not None
     return False
