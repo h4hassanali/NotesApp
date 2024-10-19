@@ -5,7 +5,6 @@ from typing import List
 class AddNoteRequest(BaseModel):
     title: str
     content: str
-    user_id: int
 
 
 class AddNoteResponse(BaseModel):

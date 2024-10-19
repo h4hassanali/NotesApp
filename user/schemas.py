@@ -22,9 +22,9 @@ class UserSigninRequest(BaseModel):
 
 
 class UserSigninResponse(BaseModel):
-    id: int
-    name: str
-    email: EmailStr
+    access_token: str
+    token_type: str
+    user: UserSignupResponse
 
     class Config:
         orm_mode = True
