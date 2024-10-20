@@ -8,7 +8,7 @@ from user.auth import SECRET_KEY, ALGORITHM
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="user/signin")
 
 
-def get_current_user(token: str = Depends(oauth2_scheme)) -> User | None:
+def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         user_id = extract_id_from_token(token = token)
         if user_id is None:
@@ -29,6 +29,6 @@ def extract_id_from_token(token: str):
     return user_id
 
 
-def get_user_by_id(user_id: int) -> User | None:
+def get_user_by_id(user_id: int):
     with get_database_session() as database:
         return database.query(User).filter(User.id == user_id).first()

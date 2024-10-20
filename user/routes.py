@@ -15,7 +15,7 @@ def signup(user_data: UserSignupRequest):
     if check_user(email = user_data.email):
         raise HTTPException(
             status_code = status.HTTP_409_CONFLICT,
-            detail="User with this email already exists"
+            detail = "User with this email already exists"
         )
 
     new_user = create_user(user_data)

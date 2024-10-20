@@ -10,8 +10,8 @@ ALGORITHM = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 
-def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
     expire = datetime.now(
-        timezone.utc) + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+        timezone.utc) + (expires_delta or timedelta(minutes = ACCESS_TOKEN_EXPIRE_MINUTES))
     data_to_encode = {**data, "exp": expire, "sub": str(data.get("sub"))}
-    return jwt.encode(data_to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return jwt.encode(data_to_encode, SECRET_KEY, algorithm = ALGORITHM)

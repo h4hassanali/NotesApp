@@ -7,19 +7,19 @@ from pydantic import EmailStr
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes = ["bcrypt"], deprecated="auto")
 
 
-def create_user(user_data: UserSignupRequest) -> dict:
+def create_user(user_data: UserSignupRequest):
     new_user = User(
-        name=user_data.name,
-        email=user_data.email,
-        password=get_password_hash(user_data.password)
+        name = user_data.name,
+        email = user_data.email,
+        password = get_password_hash(user_data.password)
     )
     return save_user_to_db(new_user)
 
 
-def save_user_to_db(user: User) -> dict:
+def save_user_to_db(user: User):
     with get_database_session() as database:
         database.add(user)
         database.commit()
@@ -27,10 +27,10 @@ def save_user_to_db(user: User) -> dict:
     return user
 
 
-def get_access_token(user: User) -> dict:
+def get_access_token(user: User):
     access_token = create_access_token(
-        data={"sub": str(user.id)},
-        expires_delta=timedelta(minutes=int(ACCESS_TOKEN_EXPIRE_MINUTES))
+        data = {"sub": str(user.id)},
+        expires_delta = timedelta(minutes = int(ACCESS_TOKEN_EXPIRE_MINUTES))
     )
     return {
         "access_token": access_token,
@@ -39,24 +39,24 @@ def get_access_token(user: User) -> dict:
     }
 
 
-def validate_credentials(user_data: UserSigninRequest) -> User | bool:
+def validate_credentials(user_data: UserSigninRequest):
     user = get_user_by_email(user_data.email)
     if user and verify_password(user_data.password, user.password):
         return user
     return False
 
 
-def get_user_by_email(email: EmailStr) -> User | None:
+def get_user_by_email(email: EmailStr):
     with get_database_session() as database:
         return database.query(User).filter(User.email == email).first()
 
 
-def check_user(email: EmailStr = None, user_id: int = None) -> bool:
+def check_user(email: EmailStr = None, user_id: int = None):
     with get_database_session() as database:
-        return user_exists(database, email=email, user_id=user_id)
+        return user_exists(database, email = email, user_id = user_id)
 
 
-def user_exists(database: Session, email: EmailStr = None, user_id: int = None) -> bool:
+def user_exists(database: Session, email: EmailStr = None, user_id: int = None):
     query = database.query(User)
     if email:
         return query.filter(User.email == email).first() is not None
@@ -65,9 +65,9 @@ def user_exists(database: Session, email: EmailStr = None, user_id: int = None) 
     return False
 
 
-def get_password_hash(password: str) -> str:
+def get_password_hash(password: str):
     return pwd_context.hash(password)
 
 
-def verify_password(plain_password: str, hashed_password: str) -> bool:
+def verify_password(plain_password: str, hashed_password: str):
     return pwd_context.verify(plain_password, hashed_password)

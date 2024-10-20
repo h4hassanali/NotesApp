@@ -5,18 +5,15 @@ from database.service import get_database_session
 
 
 def create_note_service(note_data: AddNoteRequest, user_id: int):
-    database = get_database_session()
-    try:
+    with get_database_session() as database:
         return create_note_in_db(database, note_data, user_id)
-    finally:
-        database.close()
 
 
 def create_note_in_db(database: Session, note_data: AddNoteRequest, user_id: int):
     new_note = Note(
-        title=note_data.title,
-        content=note_data.content,
-        owner_id=user_id,
+        title = note_data.title,
+        content = note_data.content,
+        owner_id = user_id,
     )
     database.add(new_note)
     database.commit()
@@ -24,11 +21,7 @@ def create_note_in_db(database: Session, note_data: AddNoteRequest, user_id: int
     return new_note
 
 
-
 def get_notes_service(user_id: int) -> list[Note]:
-    database = get_database_session()
-    try:
+    with get_database_session() as database:
         notes = database.query(Note).filter(Note.owner_id == user_id).all()
         return notes
-    finally:
-        database.close()
