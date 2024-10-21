@@ -32,3 +32,4 @@ def extract_id_from_token(token: str):
 def get_user_by_id(user_id: int):
     with get_database_session() as database:
         return database.query(User).filter(User.id == user_id).first()
+
