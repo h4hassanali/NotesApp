@@ -1,4 +1,4 @@
 notesApp-Env/
 __pycache__
 .env
-user\user.log
+user/user.log
