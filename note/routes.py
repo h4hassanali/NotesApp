@@ -1,4 +1,4 @@
-from fastapi import Depends, APIRouter, status, HTTPException
+from fastapi import Depends, APIRouter, status, HTTPException, Security
 from user.models import User
 from user.dependencies import get_current_user
 from note.service import create_note_service, get_notes_service
@@ -8,7 +8,7 @@ note_router = APIRouter()
 
 
 @note_router.post("/notes", response_model = AddNoteResponse, status_code = status.HTTP_201_CREATED)
-def create_note(note_data: AddNoteRequest, current_user: User = Depends(get_current_user)):
+def create_note(note_data: AddNoteRequest, current_user: User = Security(get_current_user)):
     if current_user is None:
         raise HTTPException(
             status_code = status.HTTP_401_UNAUTHORIZED,
@@ -19,7 +19,7 @@ def create_note(note_data: AddNoteRequest, current_user: User = Depends(get_curr
 
 
 @note_router.get("/notes", response_model = ListNotesResponse, status_code = status.HTTP_200_OK)
-def get_notes(current_user: User = Depends(get_current_user)):
+def get_notes(current_user: User = Security(get_current_user)):
     if current_user is None:
         raise HTTPException(
             status_code = status.HTTP_401_UNAUTHORIZED,
