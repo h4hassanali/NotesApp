@@ -1,10 +1,3 @@
-2024-10-21 13:07:47,169 - INFO - User ID: 13 performed action: siginIn on 2024-10-21 13:07:47.169543
-2024-10-21 13:15:06,389 - WARNING - (trapped) error reading bcrypt version
-Traceback (most recent call last):
-  File "C:\Users\PMLS\Desktop\Journey to become a Winner\NomadsTech\Assignment_2\notesApp-Env\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
-    version = _bcrypt.__about__.__version__
-              ^^^^^^^^^^^^^^^^^
-AttributeError: module 'bcrypt' has no attribute '__about__'
 2024-10-21 13:15:06,974 - INFO - User ID: 13 performed action: siginIn on 2024-10-21 13:15:06.974122
 2024-10-21 13:15:21,882 - INFO - User ID: 13 performed action: siginIn on 2024-10-21 13:15:21.882550
 2024-10-21 13:15:31,209 - INFO - User ID: 13 performed action: Get Notes on 2024-10-21 13:15:31.209251
