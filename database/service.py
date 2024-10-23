@@ -1,5 +1,3 @@
-from fastapi import HTTPException, status
-from sqlalchemy.exc import SQLAlchemyError
 from .engine import SessionLocal
 
 

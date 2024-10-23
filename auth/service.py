@@ -3,9 +3,9 @@ from jose import jwt
 from configuration import Config
 from passlib.context import CryptContext
 
-SECRET_KEY = Config.SECRET_KEY
-ALGORITHM = Config.ALGORITHM
-ACCESS_TOKEN_EXPIRE_MINUTES = Config.ACCESS_TOKEN_EXPIRE_MINUTES
+SECRET_KEY = Config.get_env_variable('SECRET_KEY')
+ALGORITHM = Config.get_env_variable('ALGORITHM')
+ACCESS_TOKEN_EXPIRE_MINUTES = Config.get_env_variable('ACCESS_TOKEN_EXPIRE_MINUTES')
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

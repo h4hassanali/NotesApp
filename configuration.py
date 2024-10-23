@@ -14,7 +14,10 @@ logging.basicConfig(
 
 
 class Config:
-    SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
-    SECRET_KEY = os.getenv("SECRET_KEY")
-    ALGORITHM = os.getenv("ALGORITHM")
-    ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
+    @staticmethod
+    def get_env_variable(var_name):
+        value = os.getenv(var_name)
+        if value is None:
+            raise EnvironmentError(
+                f"Missing required environment variable: {var_name}")
+        return value
