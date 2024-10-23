@@ -3,7 +3,7 @@ from user.models import User
 from jose import ExpiredSignatureError, JWTError, jwt
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
-from user.auth import SECRET_KEY, ALGORITHM
+from auth.service import SECRET_KEY, ALGORITHM
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="user/signin")
 

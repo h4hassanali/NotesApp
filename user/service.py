@@ -1,13 +1,10 @@
 from datetime import timedelta
-from user.auth import create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
+from auth.service import create_access_token, get_password_hash, ACCESS_TOKEN_EXPIRE_MINUTES, verify_password
 from user.models import User
 from user.schemas import UserSignupRequest, UserSigninRequest
 from database.service import get_database_session
 from pydantic import EmailStr
-from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-
-pwd_context = CryptContext(schemes = ["bcrypt"], deprecated="auto")
 
 
 def create_user(user_data: UserSignupRequest):
@@ -63,11 +60,3 @@ def user_exists(database: Session, email: EmailStr = None, user_id: int = None):
     if user_id:
         return query.filter(User.id == user_id).first() is not None
     return False
-
-
-def get_password_hash(password: str):
-    return pwd_context.hash(password)
-
-
-def verify_password(plain_password: str, hashed_password: str):
-    return pwd_context.verify(plain_password, hashed_password)
