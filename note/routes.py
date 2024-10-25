@@ -1,9 +1,9 @@
-from fastapi import Depends, APIRouter, status, HTTPException, Security, BackgroundTasks
+from fastapi import APIRouter, status, HTTPException, Security, BackgroundTasks
 from user.models import User
-from user.dependencies import get_current_user
+from user.common_services import get_current_user
 from note.service import create_note_service, get_notes_service
-from user.logging import log_user_action
-from .schemas import AddNoteRequest, AddNoteResponse, ListNotesResponse
+from auth.logging import log_user_action
+from note.schemas import AddNoteRequest, AddNoteResponse, ListNotesResponse
 
 note_router = APIRouter()
 

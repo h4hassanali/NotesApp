@@ -9,7 +9,7 @@ SECRET_KEY = Config.get_env_variable('SECRET_KEY')
 ALGORITHM = Config.get_env_variable('ALGORITHM')
 ACCESS_TOKEN_EXPIRE_MINUTES = Config.get_env_variable('ACCESS_TOKEN_EXPIRE_MINUTES')
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes = ["bcrypt"], deprecated = "auto")
 
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
@@ -41,8 +41,7 @@ async def exchange_code_for_token(code: str) -> str:
     token_json = token_response.json()
 
     if "error" in token_json:
-        raise HTTPException(
-            status_code=400, detail="Failed to fetch token from Google")
+        return False
 
     return token_json.get("access_token")
 
