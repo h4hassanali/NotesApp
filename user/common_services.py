@@ -43,7 +43,7 @@ def get_user_by_email(email: EmailStr):
 
 def check_user(email: EmailStr = None, user_id: int = None):
     with get_database_session() as database:
-        return user_exists(database, email=email, user_id=user_id)
+        return user_exists(database, email = email, user_id = user_id)
 
 
 def user_exists(database: Session, email: EmailStr = None, user_id: int = None):

@@ -1,5 +1,4 @@
 import requests
-from fastapi import HTTPException
 from datetime import datetime, timedelta, timezone
 from jose import jwt
 from configuration import Config
@@ -49,7 +48,7 @@ async def exchange_code_for_token(code: str) -> str:
 async def get_user_info(access_token: str) -> dict:
     user_info_url = "https://www.googleapis.com/oauth2/v1/userinfo"
     headers = {"Authorization": f"Bearer {access_token}"}
-    user_info_response = requests.get(user_info_url, headers=headers)
+    user_info_response = requests.get(user_info_url, headers = headers)
 
     if user_info_response.status_code != 200:
         return False

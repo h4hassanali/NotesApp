@@ -10,18 +10,18 @@ from configuration import Config
 auth_router = APIRouter()
 
 
-@auth_router.post("/signin", response_model=SigninResponse, status_code=status.HTTP_200_OK)
+@auth_router.post("/signin", response_model = SigninResponse, status_code = status.HTTP_200_OK)
 def signin(background_task: BackgroundTasks, form_data: OAuth2PasswordRequestForm = Depends(), ):
     user_data = SigninRequest(
-        email=form_data.username, password=form_data.password)
+        email = form_data.username, password = form_data.password)
     user = validate_credentials(user_data)
     if user:
         access_token = get_access_token(user)
         background_task.add_task(log_user_action, user.id, "siginIn")
         return access_token
     raise HTTPException(
-        status_code=status.HTTP_403_FORBIDDEN,
-        detail="Invalid Email or Password"
+        status_code = status.HTTP_403_FORBIDDEN,
+        detail = "Invalid Email or Password"
     )
 
 
@@ -36,30 +36,30 @@ async def login_google():
     return {"url": google_oauth_url}
 
 
-@auth_router.get("/google/callback", response_model=SigninResponse)
+@auth_router.get("/google/callback", response_model = SigninResponse)
 async def auth_google_callback(code: str, background_task: BackgroundTasks):
     access_token = await exchange_code_for_token(code)
     user_info = await get_user_info(access_token)
 
     email = user_info.get("email")
-    user = get_user_by_email(email=email)
+    user = get_user_by_email(email = email)
 
     if not user:
         user = create_user(SignupRequest(
-            name=user_info.get("name"),
-            email=email,
-            password=""
+            name = user_info.get("name"),
+            email = email,
+            password = ""
         ))
 
     token_data = get_access_token(user)
     background_task.add_task(log_user_action, user.id, "googleSignIn")
 
     return SigninResponse(
-        access_token=token_data["access_token"],
-        token_type=token_data["token_type"],
-        user=SignupResponse(
-            id=user.id,
-            name=user.name,
-            email=user.email
+        access_token = token_data["access_token"],
+        token_type = token_data["token_type"],
+        user = SignupResponse(
+            id = user.id,
+            name = user.name,
+            email = user.email
         )
     )
