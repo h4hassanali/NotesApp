@@ -1,8 +1,12 @@
+from fastapi import Depends, HTTPException
 import requests
 from datetime import datetime, timedelta, timezone
 from jose import jwt
 from configuration import Config
 from passlib.context import CryptContext
+from fastapi import status
+from user.common_services import get_current_user
+from user.models import User
 
 SECRET_KEY = Config.get_env_variable('SECRET_KEY')
 ALGORITHM = Config.get_env_variable('ALGORITHM')
@@ -53,3 +57,15 @@ async def get_user_info(access_token: str) -> dict:
     if user_info_response.status_code != 200:
         return False
     return user_info_response.json()
+
+
+def admin_required(current_user: User = Depends(get_current_user)):
+    if current_user.is_admin:
+        return current_user
+    return False
+
+
+def user_required(current_user: User = Depends(get_current_user)):
+    if not current_user.is_admin:
+        return current_user
+    return False

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, TIMESTAMP, text
+from sqlalchemy import Boolean, Column, Integer, String, TIMESTAMP, text
 from database.engine import Base
 from sqlalchemy.orm import relationship
 
@@ -13,4 +13,6 @@ class User(Base):
     created_at = Column(
         TIMESTAMP(timezone = True), server_default = text("now()"), nullable = False
     )
+    is_admin = Column(Boolean, default=False)
+
     notes = relationship("Note", back_populates = "owner")

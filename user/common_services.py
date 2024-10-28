@@ -5,7 +5,7 @@ from user.models import User
 from jose import ExpiredSignatureError, JWTError, jwt
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
-from auth.service import SECRET_KEY, ALGORITHM
+from configuration import Config
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/signin")
 
@@ -26,7 +26,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
 
 
 def extract_id_from_token(token: str):
-    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    payload = jwt.decode(token, Config.get_env_variable("SECRET_KEY"), algorithms=[Config.get_env_variable("ALGORITHM")])
     user_id = payload.get("sub")
     return user_id
 

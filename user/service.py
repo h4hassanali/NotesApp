@@ -7,13 +7,16 @@ from auth.schemas import SigninRequest
 from database.service import get_database_session
 from configuration import Config
 
+
 def create_user(user_data: SignupRequest):
     new_user = User(
-        name = user_data.name,
-        email = user_data.email,
-        password = get_password_hash(user_data.password)
-    )
+        name=user_data.name,
+        email=user_data.email,
+        password=get_password_hash(user_data.password),
+        is_admin=user_data.email in Config.get_env_variable(
+            'ADMIN_EMAILS').split(','))
     return save_user_to_db(new_user)
+
 
 
 def save_user_to_db(user: User):
