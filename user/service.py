@@ -5,7 +5,7 @@ from user.models import User
 from user.schemas import SignupRequest
 from auth.schemas import SigninRequest
 from database.service import get_database_session
-from configuration import Config
+from utils.configuration import Config
 
 
 def create_user(user_data: SignupRequest):

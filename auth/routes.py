@@ -2,10 +2,10 @@ from fastapi.security import OAuth2PasswordRequestForm
 from fastapi import Depends, APIRouter, HTTPException, status, BackgroundTasks
 from auth.service import exchange_code_for_token, get_user_info
 from user.service import create_user, get_user_by_email, validate_credentials, get_access_token
-from auth.logging import log_user_action
+from utils.logging import log_user_action
 from user.schemas import SignupRequest, SignupResponse
 from auth.schemas import SigninRequest, SigninResponse
-from configuration import Config
+from utils.configuration import Config
 
 auth_router = APIRouter()
 

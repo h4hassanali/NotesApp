@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status, BackgroundTasks
 from user.service import create_user, get_access_token
 from user.common_services import check_user
-from auth.logging import log_user_action
+from utils.logging import log_user_action
 from user.schemas import SignupRequest
 from auth.schemas import SigninResponse
 

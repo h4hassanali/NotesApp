@@ -1,4 +1,4 @@
-from configuration import logging
+from utils.configuration import logging
 from datetime import datetime
 
 

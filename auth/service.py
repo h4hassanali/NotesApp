@@ -2,7 +2,7 @@ from fastapi import Depends, HTTPException
 import requests
 from datetime import datetime, timedelta, timezone
 from jose import jwt
-from configuration import Config
+from utils.configuration import Config
 from passlib.context import CryptContext
 from fastapi import status
 from user.common_services import get_current_user
