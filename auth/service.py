@@ -1,10 +1,9 @@
-from fastapi import Depends, HTTPException
+from fastapi import Depends
 import requests
 from datetime import datetime, timedelta, timezone
 from jose import jwt
-from utils.configuration import Config
+from common_services.configuration import Config
 from passlib.context import CryptContext
-from fastapi import status
 from user.common_services import get_current_user
 from user.models import User
 
