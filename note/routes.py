@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status, HTTPException, Security, BackgroundTasks
 from auth.service import admin_required, user_required
 from user.models import User
-from user.common_services import get_current_user
+from common_services.user_common_services import get_current_user
 from note.service import create_note_service, get_notes_service
 from common_services.logging import log_user_action
 from note.schemas import AddNoteRequest, AddNoteResponse, ListNotesResponse

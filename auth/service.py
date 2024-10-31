@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 from jose import jwt
 from common_services.configuration import Config
 from passlib.context import CryptContext
-from user.common_services import get_current_user
+from common_services.user_common_services import get_current_user
 from user.models import User
 
 SECRET_KEY = Config.get_env_variable('SECRET_KEY')

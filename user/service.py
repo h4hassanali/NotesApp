@@ -1,6 +1,6 @@
 from datetime import timedelta
 from auth.service import create_access_token, get_password_hash, verify_password
-from user.common_services import get_user_by_email
+from common_services.user_common_services import get_user_by_email
 from user.models import User
 from user.schemas import SignupRequest
 from auth.schemas import SigninRequest
